@@ -19,5 +19,7 @@ namespace SNS.Data.Models
         public string QboserviceItem { get; set; }
         public DateTimeOffset? LastModifiedDate { get; set; }
         public int? CreatedByUser { get; set; }
+        public string Notes { get; set; }
+        public DateTimeOffset? EntryDate { get; set; }
     }
 }

@@ -9,6 +9,9 @@ namespace SNS.FunctionApp.Helper
     {
         public AutoMapping()
         {
+            CreateMap<TimesheetsDeleted, TstimeEntriesDeleted>()
+                .ForMember(dest => dest.TstimeEntryId, opt => opt.MapFrom(s => s.Id));
+
             CreateMap<Jobcode, Tsclients>()
                 .ForMember(dest => dest.Active, opt => opt.MapFrom(s => s.Active))
                 .ForMember(dest => dest.Billable, opt => opt.MapFrom(s => s.Billable))
@@ -45,6 +48,8 @@ namespace SNS.FunctionApp.Helper
                 .ForMember(dest => dest.TsengagementId, opt => opt.MapFrom(s => s.JobcodeId))
                 .ForMember(dest => dest.TstimeEntryId, opt => opt.MapFrom(s => s.Id))
                 .ForMember(dest => dest.TsuserId, opt => opt.MapFrom(s => s.UserId))
+                .ForMember(dest => dest.EntryDate, opt => opt.MapFrom(s => s.Date))
+                .ForMember(dest => dest.Notes, opt => opt.MapFrom(s => s.Notes))
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(s => s.Type));
 
             CreateMap<User, Tsusers>()

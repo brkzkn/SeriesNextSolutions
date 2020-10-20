@@ -1,6 +1,5 @@
 using AutoMapper;
 using Intuit.TSheets.Api;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using SNS.Data.Models;

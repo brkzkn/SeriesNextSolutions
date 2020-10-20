@@ -43,13 +43,19 @@ namespace SNS.FunctionApp.Business
                 if (getLatestTime != null)
                     lastUpdateTime = DateTime.SpecifyKind(getLatestTime.LastUpdateTime, DateTimeKind.Utc);
 
-                var timeSheets = _client.GetTimesheets(new Intuit.TSheets.Model.Filters.TimesheetFilter()
+                var deletedTimeSheets = _client.GetTimesheetsDeleted(new Intuit.TSheets.Model.Filters.TimesheetsDeletedFilter()
                 {
                     ModifiedSince = lastUpdateTime
                 }).Item1;
 
+                var timeSheets = _client.GetTimesheets(new Intuit.TSheets.Model.Filters.TimesheetFilter()
+                {
+                    ModifiedSince = lastUpdateTime
+                }).Item1;
+                
 
                 var timeEntries = _mapper.Map<IList<TstimeEntries>>(timeSheets);
+                var deletedTimeEntries = _mapper.Map<IList<TstimeEntriesDeleted>>(deletedTimeSheets);
 
                 var policy = Policy.Handle<Exception>()
                                    .WaitAndRetry(5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
@@ -59,6 +65,9 @@ namespace SNS.FunctionApp.Business
                     _logger.LogInformation($"[TimeSheets]: Bulk insert is starting");
                     if (timeSheets.Count > 0)
                         _context.BulkInsertOrUpdate<TstimeEntries>(timeEntries);
+                    if (deletedTimeSheets.Count > 0)
+                        _context.BulkInsertOrUpdate<TstimeEntriesDeleted>(deletedTimeEntries);
+
                     _logger.LogInformation($"[TimeSheets]: Bulk insert completed");
 
                     UpdateTableInfo(new string[] { nameof(TstimeEntries) }, functionStartedTime);

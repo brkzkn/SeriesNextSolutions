@@ -19,6 +19,7 @@ namespace SNS.Data.Models
         public virtual DbSet<Tsclients> Tsclients { get; set; }
         public virtual DbSet<Tsengagements> Tsengagements { get; set; }
         public virtual DbSet<TstimeEntries> TstimeEntries { get; set; }
+        public virtual DbSet<TstimeEntriesDeleted> TstimeEntriesDeleted { get; set; }
         public virtual DbSet<Tsusers> Tsusers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -86,6 +87,8 @@ namespace SNS.Data.Models
 
                 entity.Property(e => e.Location).HasMaxLength(100);
 
+                entity.Property(e => e.Notes).HasMaxLength(500);
+
                 entity.Property(e => e.QboserviceItem)
                     .HasColumnName("QBOServiceItem")
                     .HasMaxLength(100);
@@ -95,6 +98,17 @@ namespace SNS.Data.Models
                 entity.Property(e => e.TsuserId).HasColumnName("TSUserID");
 
                 entity.Property(e => e.Type).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<TstimeEntriesDeleted>(entity =>
+            {
+                entity.HasKey(e => e.TstimeEntryId);
+
+                entity.ToTable("TSTimeEntriesDeleted");
+
+                entity.Property(e => e.TstimeEntryId)
+                    .HasColumnName("TSTimeEntryID")
+                    .ValueGeneratedNever();
             });
 
             modelBuilder.Entity<Tsusers>(entity =>
