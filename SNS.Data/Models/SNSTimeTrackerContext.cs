@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace SNS.Data.Models
 {
@@ -13,6 +15,7 @@ namespace SNS.Data.Models
         {
         }
 
+        public virtual DbSet<ScheduledJobInfo> ScheduledJobInfo { get; set; }
         public virtual DbSet<Tsclients> Tsclients { get; set; }
         public virtual DbSet<Tsengagements> Tsengagements { get; set; }
         public virtual DbSet<TstimeEntries> TstimeEntries { get; set; }
@@ -24,6 +27,15 @@ namespace SNS.Data.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ScheduledJobInfo>(entity =>
+            {
+                entity.HasKey(e => e.TableName);
+
+                entity.Property(e => e.TableName).HasMaxLength(50);
+
+                entity.Property(e => e.LastUpdateTime).HasColumnType("datetime");
+            });
+
             modelBuilder.Entity<Tsclients>(entity =>
             {
                 entity.HasKey(e => e.TsclientId);

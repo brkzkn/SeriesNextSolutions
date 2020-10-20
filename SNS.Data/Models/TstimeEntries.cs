@@ -10,7 +10,7 @@ namespace SNS.Data.Models
         public int TsengagementId { get; set; }
         public DateTimeOffset? StartDateTime { get; set; }
         public DateTimeOffset? EndDateTime { get; set; }
-        public int? Minutes { get; set; }
+        public int? Seconds { get; set; }
         public int? TimeZone { get; set; }
         public string Type { get; set; }
         public string Location { get; set; }

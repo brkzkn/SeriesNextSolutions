@@ -37,7 +37,7 @@ namespace SNS.FunctionApp.Helper
                 .ForMember(dest => dest.EndDateTime, opt => opt.MapFrom(s => s.End))
                 .ForMember(dest => dest.LastModifiedDate, opt => opt.MapFrom(s => s.LastModified))
                 //.ForMember(dest => dest.Location, opt => opt.MapFrom(s => s.))
-                .ForMember(dest => dest.Minutes, opt => opt.MapFrom(s => s.Duration))
+                .ForMember(dest => dest.Seconds, opt => opt.MapFrom(s => s.Duration))
                 .ForMember(dest => dest.OnTheClock, opt => opt.MapFrom(s => s.OnTheClock))
                 .ForMember(dest => dest.QboserviceItem, opt => opt.MapFrom<QboserviceItemResolver>())
                 .ForMember(dest => dest.StartDateTime, opt => opt.MapFrom(s => s.Start))
